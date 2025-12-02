@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  classification-api:
+    # 沿用你提供的 PyTorch 基础镜像 (包含 CUDA 环境)
+    image: pytorch/pytorch:2.5.1-cuda12.4-cudnn9-devel
+    container_name: ImageClassifier
+    working_dir: /work_dir
+    volumes:
+      - ./:/work_dir
+    ports:
+      - "5003:5003"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']  # 指定物理机上的 0 号卡
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - FLASK_APP=app.py
+    # 依赖安装策略：
+    # 1. 设置清华源
+    # 2. 安装 Flask/RestX 相关库 (锁定版本以解决 Werkzeug 兼容性问题)
+    # 3. 安装 requests 和 Pillow
+    # 4. 启动应用
+    command: >
+      bash -c "
+      pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple &&
+      pip install flask==2.3.3 werkzeug==2.3.7 flask-restx requests gunicorn Pillow &&
+      echo 'Dependencies installed, starting classification app...' &&
+      python app.py
+      "
+    restart: unless-stopped
+```
+
+### 使用说明：
+1.  确保当前目录下有 `app.py`、`balanced_records.json` 和 `resnet50_best.pth`。
+2.  直接运行：
+    ```bash
+    docker-compose up -d
