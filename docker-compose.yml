@@ -27,7 +27,6 @@ services:
     # 4. 启动应用
     command: >
       bash -c "
-      pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple &&
       pip install flask==2.3.3 flask-restx requests gunicorn Pillow &&
       echo 'Dependencies installed, starting classification app...' &&
       gunicorn -w 4 -b 0.0.0.0:5003 label_api:app
