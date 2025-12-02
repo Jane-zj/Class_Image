@@ -19,7 +19,7 @@ services:
               capabilities: [gpu]
     environment:
       - NVIDIA_VISIBLE_DEVICES=0
-      - FLASK_APP=app.py
+      - FLASK_APP=label_api.py
     # 依赖安装策略：
     # 1. 设置清华源
     # 2. 安装 Flask/RestX 相关库 (锁定版本以解决 Werkzeug 兼容性问题)
@@ -30,7 +30,7 @@ services:
       pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple &&
       pip install flask==2.3.3 werkzeug==2.3.7 flask-restx requests gunicorn Pillow &&
       echo 'Dependencies installed, starting classification app...' &&
-      python app.py
+      python label_api.py
       "
     restart: unless-stopped
 ```
