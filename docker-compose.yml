@@ -28,7 +28,7 @@ services:
     command: >
       bash -c "
       pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple &&
-      pip install flask==2.3.3 werkzeug==2.3.7 flask-restx requests gunicorn Pillow &&
+      pip install flask==2.3.3 flask-restx requests gunicorn Pillow &&
       echo 'Dependencies installed, starting classification app...' &&
       python label_api.py
       "
