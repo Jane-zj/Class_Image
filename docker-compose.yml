@@ -36,7 +36,7 @@ services:
 ```
 
 ### 使用说明：
-1.  确保当前目录下有 `app.py`、`balanced_records.json` 和 `resnet50_best.pth`。
+1.  确保当前目录下有 `label_api.py`、`balanced_records.json` 和 `resnet50_best.pth`。
 2.  直接运行：
     ```bash
     docker-compose up -d
